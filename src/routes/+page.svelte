@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { authClient } from '$lib/auth-client';
+	import Header from '$lib/components/header.svelte';
 	import { Button } from '$lib/components/ui/button';
 
 	const handleSignInGithub = async () => {
@@ -10,7 +11,15 @@
 	};
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<svelte:head>
+	<title>Welcome | JobTrackify</title>
+</svelte:head>
 
-<Button onclick={handleSignInGithub}>Signin with Github</Button>
+<main class="mx-auto flex w-4/5 flex-col items-center space-y-12 py-24">
+	<Header className="" />
+
+	<div class="space-y-4 text-center">
+		<p>Signin to your account to manage and track <br />your job applications</p>
+		<Button onclick={handleSignInGithub}>Signin with Github</Button>
+	</div>
+</main>
