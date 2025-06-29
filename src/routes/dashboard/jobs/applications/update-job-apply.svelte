@@ -43,6 +43,7 @@
 		interviewTypes,
 		jobApplicationSchema,
 		jobApplicationStatuses,
+		jobTypes,
 		type updateJobApplicationSchema
 	} from './apply-schema';
 
@@ -58,7 +59,6 @@
 		validators: zodClient(jobApplicationSchema),
 		warnings: { duplicateId: false },
 		resetForm: false,
-		clearOnSubmit: 'none',
 		onUpdate: ({ form: f }) => {
 			if (f.valid) {
 				toast.success(`Successfully updated job application!`, {
@@ -118,7 +118,7 @@
 			</TooltipContent>
 		</Tooltip>
 
-		<SheetContent class="sm:max-w-2xl" showCloseButton={false}>
+		<SheetContent class="overflow-y-auto pt-5 pb-12 sm:max-w-2xl" showCloseButton={false}>
 			<SheetHeader>
 				<SheetTitle class="text-xl">Update Job Application</SheetTitle>
 				<SheetDescription>
@@ -169,6 +169,30 @@
 								/>
 							{/snippet}
 						</FormControl>
+						<FormFieldErrors />
+					</FormField>
+
+					<FormField {form} name="jobType">
+						<FormControl>
+							{#snippet children({ props })}
+								<FormLabel>Job Type</FormLabel>
+								<Select type="single" bind:value={$formData.jobType} name={props.name}>
+									<SelectTrigger {...props} class="w-full">
+										{$formData.jobType ? jobTypes[$formData.jobType] : 'Select Job Type'}
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="full-time">Full Time</SelectItem>
+										<SelectItem value="part-time">Part Time</SelectItem>
+										<SelectItem value="contract">Contract</SelectItem>
+										<SelectItem value="internship">Internship</SelectItem>
+										<SelectItem value="temporary">Temporary</SelectItem>
+										<SelectItem value="freelance">Freelance</SelectItem>
+										<SelectItem value="other">Other</SelectItem>
+									</SelectContent>
+								</Select>
+							{/snippet}
+						</FormControl>
+
 						<FormFieldErrors />
 					</FormField>
 

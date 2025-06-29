@@ -64,7 +64,7 @@
 
 		<SheetContent
 			showCloseButton={false}
-			class="sm:max-w-xl"
+			class="overflow-y-auto pt-5 pb-12 sm:max-w-xl"
 			onInteractOutside={(e) => $submitting && e.preventDefault()}
 		>
 			<SheetHeader>

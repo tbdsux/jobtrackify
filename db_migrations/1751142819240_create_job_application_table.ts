@@ -8,6 +8,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 		.addColumn('user_id', 'varchar', (col) => col.references('user.id').onDelete('cascade'))
 		.addColumn('companyName', 'varchar', (col) => col.notNull())
 		.addColumn('position', 'varchar', (col) => col.notNull())
+		.addColumn('jobType', 'varchar', (col) => col.notNull())
 		.addColumn('jobLink', 'varchar', (col) => col.defaultTo(''))
 		.addColumn('status', 'varchar', (col) => col.notNull())
 		.addColumn('applicationDate', 'date', (col) => col.notNull())

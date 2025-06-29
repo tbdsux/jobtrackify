@@ -33,6 +33,14 @@ export const load: PageServerLoad = async ({ parent }) => {
 					| 'accepted'
 					| 'applicantRejected',
 				jobLink: item.jobLink ?? undefined,
+				jobType: item.jobType as
+					| 'full-time'
+					| 'part-time'
+					| 'contract'
+					| 'internship'
+					| 'freelance'
+					| 'temporary'
+					| 'other',
 				applicationDate: item.applicationDate
 					? typeof item.applicationDate === 'string'
 						? item.applicationDate
@@ -101,6 +109,7 @@ export const actions: Actions = {
 				companyName: addItemForm.data.companyName,
 				position: addItemForm.data.position,
 				jobLink: addItemForm.data.jobLink || '',
+				jobType: addItemForm.data.jobType || 'other',
 				status: addItemForm.data.status,
 				applicationDate: addItemForm.data.applicationDate,
 				followupDate: null,

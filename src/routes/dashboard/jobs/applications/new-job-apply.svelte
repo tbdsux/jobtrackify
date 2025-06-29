@@ -36,7 +36,7 @@
 	import { toast } from 'svelte-sonner';
 	import { type Infer, superForm, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { jobApplicationSchema, jobApplicationStatuses } from './apply-schema';
+	import { jobApplicationSchema, jobApplicationStatuses, jobTypes } from './apply-schema';
 
 	let { data }: { data: { form: SuperValidated<Infer<typeof jobApplicationSchema>> } } = $props();
 
@@ -90,7 +90,7 @@
 		<SheetContent
 			onInteractOutside={(e) => $submitting && e.preventDefault()}
 			showCloseButton={false}
-			class="sm:max-w-xl"
+			class="overflow-y-auto pt-5 pb-12 sm:max-w-xl"
 		>
 			<SheetHeader>
 				<SheetTitle class="text-xl font-black">Add New Job Application</SheetTitle>
@@ -138,6 +138,30 @@
 								/>
 							{/snippet}
 						</FormControl>
+						<FormFieldErrors />
+					</FormField>
+
+					<FormField {form} name="jobType">
+						<FormControl>
+							{#snippet children({ props })}
+								<FormLabel>Job Type</FormLabel>
+								<Select type="single" bind:value={$formData.jobType} name={props.name}>
+									<SelectTrigger {...props} class="w-full">
+										{$formData.jobType ? jobTypes[$formData.jobType] : 'Select Job Type'}
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="full-time">Full Time</SelectItem>
+										<SelectItem value="part-time">Part Time</SelectItem>
+										<SelectItem value="contract">Contract</SelectItem>
+										<SelectItem value="internship">Internship</SelectItem>
+										<SelectItem value="temporary">Temporary</SelectItem>
+										<SelectItem value="freelance">Freelance</SelectItem>
+										<SelectItem value="other">Other</SelectItem>
+									</SelectContent>
+								</Select>
+							{/snippet}
+						</FormControl>
+
 						<FormFieldErrors />
 					</FormField>
 

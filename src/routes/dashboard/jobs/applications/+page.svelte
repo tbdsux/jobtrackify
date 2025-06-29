@@ -19,6 +19,7 @@
 	import {
 		jobApplicationSchema,
 		jobApplicationStatuses,
+		jobTypes,
 		removeJobApplicationSchema,
 		updateJobApplicationSchema
 	} from './apply-schema';
@@ -78,6 +79,8 @@
 								<CardDescription class="text-base">
 									{item.companyName} - <Badge class="text-sm font-medium uppercase">
 										{jobApplicationStatuses[item.status]}
+									</Badge>{' '}<Badge variant="outline" class="text-sm font-medium uppercase">
+										{jobTypes[item.jobType]}
 									</Badge>
 								</CardDescription>
 							</CardHeader>
@@ -97,27 +100,36 @@
 									</div>
 
 									<div class="space-y-2">
-										<Label class="text-muted-foreground">Job Link</Label>
+										<Label class="text-muted-foreground">Location</Label>
 										<p
-											class="bg-secondary text-muted-foreground inline-flex space-x-2 rounded px-3 py-2 text-sm"
+											class="bg-secondary text-muted-foreground inline-flex rounded px-3 py-2 text-sm"
 										>
-											{#if item.jobLink}
-												<a
-													href={item.jobLink}
-													class="flex items-center space-x-2"
-													target="_blank"
-													rel="noopener noreferrer"
-												>
-													<span class="max-w-full truncate md:max-w-[300px]">
-														{item.jobLink}
-													</span>
-													<ExternalLinkIcon class="size-4" />
-												</a>
-											{:else}
-												<span class="max-w-full truncate md:max-w-[300px]"> Not specified </span>
-											{/if}
+											{item.location ? item.location : 'Not specified'}
 										</p>
 									</div>
+								</div>
+
+								<div class="space-y-2">
+									<Label class="text-muted-foreground">Job Link</Label>
+									<p
+										class="bg-secondary text-muted-foreground flex space-x-2 rounded px-3 py-2 text-sm"
+									>
+										{#if item.jobLink}
+											<a
+												href={item.jobLink}
+												class="flex w-full items-center justify-between space-x-2 hover:text-white"
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												<span class="max-w-[90%] truncate">
+													{item.jobLink}
+												</span>
+												<ExternalLinkIcon class="size-4" />
+											</a>
+										{:else}
+											<span class="max-w-full"> Not specified </span>
+										{/if}
+									</p>
 								</div>
 
 								<div class="space-y-2">

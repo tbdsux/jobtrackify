@@ -30,6 +30,9 @@ export const jobApplicationSchema = z.object({
 	companyName: z.string().min(1, 'Company name is required'),
 	position: z.string().min(1, 'Position is required'),
 	jobLink: z.string().url('Invalid URL format').optional(),
+	jobType: z
+		.enum(['full-time', 'part-time', 'contract', 'internship', 'freelance', 'temporary', 'other'])
+		.optional(),
 	status: z.enum(['applied', 'interview', 'offer', 'rejected', 'accepted', 'applicantRejected']),
 	applicationDate: z.string().refine((v) => v, { message: 'Application date is required.' }),
 	notes: z.string().optional(),
