@@ -1,5 +1,15 @@
 import { z } from 'zod';
 
+export const jobTypes: Record<string, string> = {
+	'full-time': 'Full Time',
+	'part-time': 'Part Time',
+	contract: 'Contract',
+	internship: 'Internship',
+	freelance: 'Freelance',
+	temporary: 'Temporary',
+	other: 'Other'
+};
+
 export const jobApplicationStatuses: Record<string, string> = {
 	applied: 'Applied',
 	interview: 'Interview',

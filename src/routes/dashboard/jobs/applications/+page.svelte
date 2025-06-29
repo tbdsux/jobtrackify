@@ -76,9 +76,9 @@
 							<CardHeader class="pt-8 sm:pt-0">
 								<CardTitle class="text-xl">{item.position}</CardTitle>
 								<CardDescription class="text-base">
-									{item.companyName} - <Badge class="text-sm font-medium uppercase"
-										>{jobApplicationStatuses[item.status]}</Badge
-									>
+									{item.companyName} - <Badge class="text-sm font-medium uppercase">
+										{jobApplicationStatuses[item.status]}
+									</Badge>
 								</CardDescription>
 							</CardHeader>
 

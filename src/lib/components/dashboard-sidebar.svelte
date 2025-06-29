@@ -19,7 +19,7 @@
 		},
 		{
 			title: 'Saved Jobs',
-			url: '/dashborad/jobs/saved',
+			url: '/dashboard/jobs/saved',
 			icon: ArchiveIcon
 		}
 	];
@@ -65,7 +65,7 @@
 				<Sidebar.Menu>
 					{#each menuItems as item (item.title)}
 						<Sidebar.MenuItem>
-							<Sidebar.MenuButton class="border border-neutral-800 px-4 py-6 [&>svg]:size-5">
+							<Sidebar.MenuButton class="px-4 py-6 [&>svg]:size-5">
 								{#snippet child({ props })}
 									<a href={item.url} {...props}>
 										<item.icon />
