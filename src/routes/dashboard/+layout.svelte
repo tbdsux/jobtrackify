@@ -9,7 +9,7 @@
 <Sidebar.Provider>
 	<DashboardSidebar user={{ name: data.session.user.name, email: data.session.user.email }} />
 
-	<main class="flex flex-col space-y-4 p-4">
+	<main class="flex h-full w-full flex-col space-y-4 px-8 pt-4 pb-8">
 		{@render children()}
 	</main>
 </Sidebar.Provider>

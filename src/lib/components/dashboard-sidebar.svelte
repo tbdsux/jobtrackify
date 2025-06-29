@@ -4,7 +4,7 @@
 	import { authClient } from '$lib/auth-client';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as Sidebar from '$lib/components/ui/sidebar';
-	import { FileUserIcon, LayoutDashboardIcon, UserCogIcon } from '@lucide/svelte';
+	import { ArchiveIcon, FileUserIcon, LayoutDashboardIcon, UserCogIcon } from '@lucide/svelte';
 
 	const menuItems = [
 		{
@@ -14,8 +14,13 @@
 		},
 		{
 			title: 'Job Applications',
-			url: '/dashboard/job-applications',
+			url: '/dashboard/jobs/applications',
 			icon: FileUserIcon
+		},
+		{
+			title: 'Saved Jobs',
+			url: '/dashborad/jobs/saved',
+			icon: ArchiveIcon
 		}
 	];
 
@@ -60,7 +65,7 @@
 				<Sidebar.Menu>
 					{#each menuItems as item (item.title)}
 						<Sidebar.MenuItem>
-							<Sidebar.MenuButton class="rounded-lg border px-4 py-8 [&>svg]:size-5">
+							<Sidebar.MenuButton class="border border-neutral-800 px-4 py-6 [&>svg]:size-5">
 								{#snippet child({ props })}
 									<a href={item.url} {...props}>
 										<item.icon />

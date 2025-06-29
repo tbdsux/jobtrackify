@@ -1,14 +1,7 @@
 import { env } from '$env/dynamic/private';
-import type { Account, Session, User, Verification } from 'better-auth';
 import { Kysely, PostgresDialect } from 'kysely';
+import type { DB } from 'kysely-codegen';
 import { Pool } from 'pg';
-
-export type Database = {
-	user: User;
-	session: Session;
-	account: Account;
-	vefification: Verification;
-};
 
 const dialect = new PostgresDialect({
 	pool: new Pool({
@@ -20,6 +13,6 @@ const dialect = new PostgresDialect({
 	})
 });
 
-export const db = new Kysely<Database>({
+export const db = new Kysely<DB>({
 	dialect
 });
