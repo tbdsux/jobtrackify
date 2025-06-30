@@ -1,0 +1,29 @@
+ARG NODE_VERSION=22
+
+FROM node:${NODE_VERSION}-slim AS slim
+
+# 1. Setup pnpm on the slim base
+FROM slim AS base
+RUN corepack enable
+RUN npm install -g corepack@latest
+RUN pnpm config set store-dir ~/.pnpm-store
+
+
+# 2. Build the project
+FROM base AS runner
+
+ENV CI=true
+
+WORKDIR /app
+
+COPY ./ /app
+
+# Install dependencies
+RUN --mount=type=cache,id=pnpm,target=~/.pnpm-store pnpm install --frozen-lockfile
+
+# No need to build the project, this will be used for dev / db scripts
+
+ENTRYPOINT []
+
+# Default command to keep the container running
+CMD ["bash"]
