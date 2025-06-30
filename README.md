@@ -1,8 +1,14 @@
-![](./static/android-chrome-512x512.png)
+![](./static/android-chrome-192x192.png)
 
 # jobtrackify
 
 Track job applications and save job links.
+
+**Demo**
+
+![](./demo/3.png)
+![](./demo/2.png)
+![](./demo/1.png)
 
 ## Development
 
