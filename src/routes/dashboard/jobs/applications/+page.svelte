@@ -17,6 +17,7 @@
 	import type { JobApplication } from 'kysely-codegen';
 	import { type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import {
+		interviewTypes,
 		jobApplicationSchema,
 		jobApplicationStatuses,
 		jobTypes,
@@ -134,7 +135,7 @@
 
 								<div class="space-y-2">
 									<Label class="text-muted-foreground text-xs">Notes</Label>
-									<p class="text-muted-foreground bg-secondary rounded-lg px-3 py-2 text-sm">
+									<p class="text-muted-foreground bg-secondary rounded px-3 py-2 text-sm">
 										{item.notes ? item.notes : 'No notes provided.'}
 									</p>
 								</div>
@@ -144,17 +145,50 @@
 								<div
 									class="text-muted-foreground flex w-full flex-col items-start justify-between space-y-4 sm:flex-row sm:space-y-0"
 								>
-									<p class="text-muted-foreground text-sm">
-										Applied on <strong>
-											{item.applicationDate
-												? df.format(
-														parseDate(
-															new Date(String(item.applicationDate)).toISOString().split('T')[0]
-														)?.toDate(getLocalTimeZone())
-													)
-												: 'N/A'}
-										</strong>
-									</p>
+									{#if item.status === 'interview'}
+										<p class="text-muted-foreground text-sm">
+											{jobApplicationStatuses[item.status]} on
+											<strong>
+												{item.interviewDate
+													? df.format(
+															parseDate(
+																new Date(String(item.interviewDate)).toISOString().split('T')[0]
+															)?.toDate(getLocalTimeZone())
+														)
+													: 'N/A'}</strong
+											>
+											via
+											<strong
+												>{item.interviewType ? interviewTypes[item.interviewType] : 'N/A'}</strong
+											>
+										</p>
+									{:else if item.status === 'applied'}
+										<p class="text-muted-foreground text-sm">
+											{jobApplicationStatuses[item.status]} on
+											<strong>
+												{item.applicationDate
+													? df.format(
+															parseDate(
+																new Date(String(item.applicationDate)).toISOString().split('T')[0]
+															)?.toDate(getLocalTimeZone())
+														)
+													: 'N/A'}
+											</strong>
+										</p>
+									{:else}
+										<p class="text-muted-foreground text-sm">
+											{jobApplicationStatuses[item.status]} on
+											<strong>
+												{item.followupDate
+													? df.format(
+															parseDate(
+																new Date(String(item.followupDate)).toISOString().split('T')[0]
+															)?.toDate(getLocalTimeZone())
+														)
+													: 'N/A'}
+											</strong>
+										</p>
+									{/if}
 
 									<div class="flex flex-col items-end justify-end">
 										<small>
