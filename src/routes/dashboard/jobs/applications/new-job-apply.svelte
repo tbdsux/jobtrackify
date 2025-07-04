@@ -175,11 +175,11 @@
 									</SelectTrigger>
 									<SelectContent>
 										<SelectItem value="applied">Applied</SelectItem>
-										<SelectItem value="interview">Interview</SelectItem>
-										<SelectItem value="offer">Offer</SelectItem>
-										<SelectItem value="rejected">Rejected</SelectItem>
-										<SelectItem value="applicantRejected">Applicant Rejected</SelectItem>
-										<SelectItem value="accepted">Accepted</SelectItem>
+										<!-- <SelectItem value="interview">Interview</SelectItem> -->
+										<!-- <SelectItem value="offer">Offer</SelectItem> -->
+										<!-- <SelectItem value="rejected">Rejected</SelectItem> -->
+										<!-- <SelectItem value="applicantRejected">Applicant Rejected</SelectItem> -->
+										<!-- <SelectItem value="accepted">Accepted</SelectItem> -->
 									</SelectContent>
 								</Select>
 							{/snippet}

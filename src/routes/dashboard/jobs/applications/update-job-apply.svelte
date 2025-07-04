@@ -246,7 +246,6 @@
 												value={interviewDate as DateValue}
 												bind:placeholder={nowDatePlaceholder}
 												minValue={new CalendarDate(1900, 1, 1)}
-												maxValue={today(getLocalTimeZone())}
 												calendarLabel="Interview Date"
 												onValueChange={(v) => {
 													if (v) {
