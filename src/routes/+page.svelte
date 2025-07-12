@@ -1,25 +1,18 @@
 <script lang="ts">
-	import { authClient } from '$lib/auth-client';
 	import Header from '$lib/components/header.svelte';
-	import { Button } from '$lib/components/ui/button';
-
-	const handleSignInGithub = async () => {
-		await authClient.signIn.social({
-			provider: 'github',
-			callbackURL: '/dashboard'
-		});
-	};
+	import Hero from './hero.svelte';
 </script>
 
 <svelte:head>
 	<title>Welcome | JobTrackify</title>
 </svelte:head>
 
-<main class="mx-auto flex w-4/5 flex-col items-center space-y-12 py-24">
+<main class="mx-auto flex w-4/5 flex-col items-center space-y-12 py-6">
 	<Header className="" />
 
-	<div class="space-y-4 text-center">
-		<p>Signin to your account to manage and track <br />your job applications</p>
-		<Button onclick={handleSignInGithub}>Signin with Github</Button>
-	</div>
+	<Hero />
+
+	<footer class="flex w-full items-center justify-between p-4 py-12">
+		<p class="text-muted-foreground text-sm">&copy; 2025 TBDH.DEV | JobTrackify</p>
+	</footer>
 </main>
