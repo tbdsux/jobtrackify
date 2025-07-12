@@ -84,7 +84,9 @@
 		<Sidebar.Menu>
 			<Sidebar.MenuItem>
 				<DropdownMenu.Root>
-					<DropdownMenu.Trigger class="flex items-center justify-between rounded-lg border py-6">
+					<DropdownMenu.Trigger
+						class="flex items-center justify-between rounded-lg border px-4 py-6"
+					>
 						{#snippet child({ props })}
 							<Sidebar.MenuButton {...props}>
 								<span>@ {compProps.user.name}</span>
@@ -97,7 +99,11 @@
 							<DropdownMenu.Label>My Account</DropdownMenu.Label>
 							<DropdownMenu.Separator />
 
-							<DropdownMenu.Item>Profile</DropdownMenu.Item>
+							<DropdownMenu.Item>
+								{#snippet child({ props })}
+									<a {...props} href="/dashboard/account">Profile</a>
+								{/snippet}
+							</DropdownMenu.Item>
 							<DropdownMenu.Item onclick={handleLogout}>Logout</DropdownMenu.Item>
 						</DropdownMenu.Group>
 					</DropdownMenu.Content>
