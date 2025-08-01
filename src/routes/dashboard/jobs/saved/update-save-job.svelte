@@ -20,13 +20,13 @@
 		SheetTrigger
 	} from '$lib/components/ui/sheet';
 	import { Tooltip, TooltipContent, TooltipTrigger } from '$lib/components/ui/tooltip';
+	import { jobTypes, type JobType } from '$lib/modules/job-application';
 	import { PlusIcon } from '@lucide/svelte';
 	import type { Selectable } from 'kysely';
 	import type { SavedJob } from 'kysely-codegen';
 	import { toast } from 'svelte-sonner';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { jobTypes } from '../applications/apply-schema';
 	import { updateSaveJobSchema } from './savejob-schema';
 
 	let props: {
@@ -141,16 +141,12 @@
 								<FormLabel>Job Type</FormLabel>
 								<Select type="single" bind:value={$formData.jobType} name={props.name}>
 									<SelectTrigger {...props} class="w-full">
-										{$formData.jobType ? jobTypes[$formData.jobType] : 'Select Job Type'}
+										{$formData.jobType ? jobTypes[$formData.jobType as JobType] : 'Select Job Type'}
 									</SelectTrigger>
 									<SelectContent>
-										<SelectItem value="full-time">Full Time</SelectItem>
-										<SelectItem value="part-time">Part Time</SelectItem>
-										<SelectItem value="contract">Contract</SelectItem>
-										<SelectItem value="internship">Internship</SelectItem>
-										<SelectItem value="temporary">Temporary</SelectItem>
-										<SelectItem value="freelance">Freelance</SelectItem>
-										<SelectItem value="other">Other</SelectItem>
+										{#each Object.entries(jobTypes) as [jobtype, value], key (key)}
+											<SelectItem value={jobtype}>{value}</SelectItem>
+										{/each}
 									</SelectContent>
 								</Select>
 							{/snippet}

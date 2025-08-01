@@ -11,16 +11,21 @@
 		CardTitle
 	} from '$lib/components/ui/card';
 	import { Label } from '$lib/components/ui/label';
+	import {
+		type ApplicationStatus,
+		type InterviewType,
+		type JobType,
+		applicationStatuses,
+		interviewTypes,
+		jobTypes
+	} from '$lib/modules/job-application';
 	import { DateFormatter, getLocalTimeZone, parseDate } from '@internationalized/date';
 	import { ExternalLinkIcon } from '@lucide/svelte';
 	import type { Selectable } from 'kysely';
 	import type { JobApplication } from 'kysely-codegen';
 	import { type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import {
-		interviewTypes,
 		jobApplicationSchema,
-		jobApplicationStatuses,
-		jobTypes,
 		removeJobApplicationSchema,
 		updateJobApplicationSchema
 	} from './apply-schema';
@@ -79,9 +84,9 @@
 								<CardTitle class="text-xl">{item.position}</CardTitle>
 								<CardDescription class="text-base">
 									{item.companyName} - <Badge class="text-sm font-medium uppercase">
-										{jobApplicationStatuses[item.status]}
+										{applicationStatuses[item.status as ApplicationStatus]}
 									</Badge>{' '}<Badge variant="outline" class="text-sm font-medium uppercase">
-										{jobTypes[item.jobType]}
+										{jobTypes[item.jobType as JobType]}
 									</Badge>
 								</CardDescription>
 							</CardHeader>
@@ -147,7 +152,7 @@
 								>
 									{#if item.status === 'interview'}
 										<p class="text-muted-foreground text-sm">
-											{jobApplicationStatuses[item.status]} on
+											{applicationStatuses[item.status]} on
 											<strong>
 												{item.interviewDate
 													? df.format(
@@ -159,12 +164,14 @@
 											>
 											via
 											<strong
-												>{item.interviewType ? interviewTypes[item.interviewType] : 'N/A'}</strong
+												>{item.interviewType
+													? interviewTypes[item.interviewType as InterviewType]
+													: 'N/A'}</strong
 											>
 										</p>
 									{:else if item.status === 'applied'}
 										<p class="text-muted-foreground text-sm">
-											{jobApplicationStatuses[item.status]} on
+											{applicationStatuses[item.status]} on
 											<strong>
 												{item.applicationDate
 													? df.format(
@@ -177,7 +184,7 @@
 										</p>
 									{:else}
 										<p class="text-muted-foreground text-sm">
-											{jobApplicationStatuses[item.status]} on
+											{applicationStatuses[item.status as ApplicationStatus]} on
 											<strong>
 												{item.followupDate
 													? df.format(

@@ -24,6 +24,14 @@
 	} from '$lib/components/ui/sheet';
 	import { Textarea } from '$lib/components/ui/textarea';
 	import { Tooltip, TooltipContent, TooltipTrigger } from '$lib/components/ui/tooltip';
+	import {
+		type ApplicationStatus,
+		applicationStatuses,
+		type InterviewType,
+		interviewTypes,
+		type JobType,
+		jobTypes
+	} from '$lib/modules/job-application';
 	import { cn } from '$lib/utils';
 	import {
 		CalendarDate,
@@ -39,13 +47,7 @@
 	import { toast } from 'svelte-sonner';
 	import { type Infer, superForm, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import {
-		interviewTypes,
-		jobApplicationSchema,
-		jobApplicationStatuses,
-		jobTypes,
-		type updateJobApplicationSchema
-	} from './apply-schema';
+	import { jobApplicationSchema, type updateJobApplicationSchema } from './apply-schema';
 
 	let props: {
 		item: Selectable<JobApplication>;
@@ -178,16 +180,12 @@
 								<FormLabel>Job Type</FormLabel>
 								<Select type="single" bind:value={$formData.jobType} name={props.name}>
 									<SelectTrigger {...props} class="w-full">
-										{$formData.jobType ? jobTypes[$formData.jobType] : 'Select Job Type'}
+										{$formData.jobType ? jobTypes[$formData.jobType as JobType] : 'Select Job Type'}
 									</SelectTrigger>
 									<SelectContent>
-										<SelectItem value="full-time">Full Time</SelectItem>
-										<SelectItem value="part-time">Part Time</SelectItem>
-										<SelectItem value="contract">Contract</SelectItem>
-										<SelectItem value="internship">Internship</SelectItem>
-										<SelectItem value="temporary">Temporary</SelectItem>
-										<SelectItem value="freelance">Freelance</SelectItem>
-										<SelectItem value="other">Other</SelectItem>
+										{#each Object.entries(jobTypes) as [jobtype, value], key (key)}
+											<SelectItem value={jobtype}>{value}</SelectItem>
+										{/each}
 									</SelectContent>
 								</Select>
 							{/snippet}
@@ -202,15 +200,14 @@
 								<FormLabel>Status</FormLabel>
 								<Select type="single" bind:value={$formData.status} name={props.name}>
 									<SelectTrigger {...props} class="w-full">
-										{$formData.status ? jobApplicationStatuses[$formData.status] : 'Select Status'}
+										{$formData.status
+											? applicationStatuses[$formData.status as ApplicationStatus]
+											: 'Select Status'}
 									</SelectTrigger>
 									<SelectContent>
-										<SelectItem value="applied">Applied</SelectItem>
-										<SelectItem value="interview">Interview</SelectItem>
-										<SelectItem value="offer">Offer</SelectItem>
-										<SelectItem value="rejected">Rejected</SelectItem>
-										<SelectItem value="applicantRejected">Applicant Rejected</SelectItem>
-										<SelectItem value="accepted">Accepted</SelectItem>
+										{#each Object.entries(applicationStatuses) as [status, value], key (key)}
+											<SelectItem value={status}>{value}</SelectItem>
+										{/each}
 									</SelectContent>
 								</Select>
 							{/snippet}
@@ -221,7 +218,7 @@
 						<FormFieldErrors />
 					</FormField>
 
-					{#if $formData.status === 'interview'}
+					{#if ['interview', 'initial interview'].includes($formData.status as ApplicationStatus)}
 						<FormField {form} name="interviewDate">
 							<FormControl>
 								{#snippet children({ props })}
@@ -270,63 +267,20 @@
 									<Select type="single" bind:value={$formData.interviewType} name={props.name}>
 										<SelectTrigger {...props} class="w-full">
 											{$formData.interviewType
-												? interviewTypes[$formData.interviewType]
+												? interviewTypes[$formData.interviewType as InterviewType]
 												: 'Select Interview Type'}
 										</SelectTrigger>
 										<SelectContent>
-											<SelectItem value="video-call">Video Call</SelectItem>
-											<SelectItem value="phone-call">Phone Call</SelectItem>
-											<SelectItem value="face-to-face">Face to face</SelectItem>
-											<SelectItem value="others">Others</SelectItem>
+											{#each Object.entries(interviewTypes) as [itype, value], key (key)}
+												<SelectItem value={itype}>{value}</SelectItem>
+											{/each}
 										</SelectContent>
 									</Select>
 								{/snippet}
 							</FormControl>
 							<FormFieldErrors />
 						</FormField>
-					{:else if ['offer', 'rejected'].includes($formData.status)}
-						<FormField {form} name="followupDate">
-							<FormControl>
-								{#snippet children({ props })}
-									<FormLabel>Followup Date</FormLabel>
-									<Popover>
-										<PopoverTrigger
-											{...props}
-											class={cn(
-												buttonVariants({ variant: 'outline' }),
-												'w-full justify-start pl-4 text-left font-normal',
-												!followupDate && 'text-muted-foreground'
-											)}
-										>
-											{followupDate
-												? df.format(followupDate.toDate(getLocalTimeZone()))
-												: 'Pick a date'}
-											<CalendarIcon class="ml-auto size-4 opacity-50" />
-										</PopoverTrigger>
-										<PopoverContent class="w-auto p-0" side="bottom">
-											<Calendar
-												type="single"
-												value={followupDate as DateValue}
-												bind:placeholder={nowDatePlaceholder}
-												minValue={new CalendarDate(1900, 1, 1)}
-												maxValue={today(getLocalTimeZone())}
-												calendarLabel="Followup Date"
-												onValueChange={(v) => {
-													if (v) {
-														$formData.followupDate = v.toString();
-													} else {
-														$formData.followupDate = '';
-													}
-												}}
-											/>
-										</PopoverContent>
-									</Popover>
-									<FormFieldErrors />
-									<input hidden value={$formData.followupDate} name={props.name} />
-								{/snippet}
-							</FormControl>
-						</FormField>
-					{:else}
+					{:else if $formData.status === 'applied'}
 						<FormField {form} name="applicationDate">
 							<FormControl>
 								{#snippet children({ props })}
@@ -365,6 +319,48 @@
 									</Popover>
 									<FormFieldErrors />
 									<input hidden value={$formData.applicationDate} name={props.name} />
+								{/snippet}
+							</FormControl>
+						</FormField>
+					{:else}
+						<FormField {form} name="followupDate">
+							<FormControl>
+								{#snippet children({ props })}
+									<FormLabel>Followup Date</FormLabel>
+									<Popover>
+										<PopoverTrigger
+											{...props}
+											class={cn(
+												buttonVariants({ variant: 'outline' }),
+												'w-full justify-start pl-4 text-left font-normal',
+												!followupDate && 'text-muted-foreground'
+											)}
+										>
+											{followupDate
+												? df.format(followupDate.toDate(getLocalTimeZone()))
+												: 'Pick a date'}
+											<CalendarIcon class="ml-auto size-4 opacity-50" />
+										</PopoverTrigger>
+										<PopoverContent class="w-auto p-0" side="bottom">
+											<Calendar
+												type="single"
+												value={followupDate as DateValue}
+												bind:placeholder={nowDatePlaceholder}
+												minValue={new CalendarDate(1900, 1, 1)}
+												maxValue={today(getLocalTimeZone())}
+												calendarLabel="Followup Date"
+												onValueChange={(v) => {
+													if (v) {
+														$formData.followupDate = v.toString();
+													} else {
+														$formData.followupDate = '';
+													}
+												}}
+											/>
+										</PopoverContent>
+									</Popover>
+									<FormFieldErrors />
+									<input hidden value={$formData.followupDate} name={props.name} />
 								{/snippet}
 							</FormControl>
 						</FormField>

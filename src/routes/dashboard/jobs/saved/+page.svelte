@@ -11,11 +11,11 @@
 		CardTitle
 	} from '$lib/components/ui/card';
 	import { Label } from '$lib/components/ui/label';
+	import { jobTypes, type JobType } from '$lib/modules/job-application';
 	import { ExternalLinkIcon } from '@lucide/svelte';
 	import type { Selectable } from 'kysely';
 	import type { SavedJob } from 'kysely-codegen';
 	import type { Infer, SuperValidated } from 'sveltekit-superforms';
-	import { jobTypes } from '../applications/apply-schema';
 	import NewSaveJob from './new-save-job.svelte';
 	import RemoveSaveJob from './remove-save-job.svelte';
 	import type { removeSaveJobSchema, saveJobSchema, updateSaveJobSchema } from './savejob-schema';
@@ -70,7 +70,7 @@
 								</CardTitle>
 								<CardDescription class="text-base">
 									{item.companyName} - <Badge class="text-sm font-medium uppercase">
-										{jobTypes[item.jobType]}
+										{jobTypes[item.jobType as JobType]}
 									</Badge>
 								</CardDescription>
 							</CardHeader>

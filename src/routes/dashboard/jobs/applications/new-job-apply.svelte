@@ -23,6 +23,12 @@
 		SheetTrigger
 	} from '$lib/components/ui/sheet';
 	import { Textarea } from '$lib/components/ui/textarea';
+	import {
+		type ApplicationStatus,
+		applicationStatuses,
+		type JobType,
+		jobTypes
+	} from '$lib/modules/job-application';
 	import { cn } from '$lib/utils';
 	import {
 		CalendarDate,
@@ -36,7 +42,7 @@
 	import { toast } from 'svelte-sonner';
 	import { type Infer, superForm, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { jobApplicationSchema, jobApplicationStatuses, jobTypes } from './apply-schema';
+	import { jobApplicationSchema } from './apply-schema';
 
 	let { data }: { data: { form: SuperValidated<Infer<typeof jobApplicationSchema>> } } = $props();
 
@@ -94,7 +100,10 @@
 		>
 			<SheetHeader>
 				<SheetTitle class="text-xl font-black">Add New Job Application</SheetTitle>
-				<SheetDescription>Fill out the details of your new job application.</SheetDescription>
+				<SheetDescription
+					>Fill out the details of your new job application.<br />As starting, job application start
+					with <strong>Applied</strong> status, you can update later on.</SheetDescription
+				>
 			</SheetHeader>
 
 			<div class="px-4">
@@ -147,7 +156,7 @@
 								<FormLabel>Job Type</FormLabel>
 								<Select type="single" bind:value={$formData.jobType} name={props.name}>
 									<SelectTrigger {...props} class="w-full">
-										{$formData.jobType ? jobTypes[$formData.jobType] : 'Select Job Type'}
+										{$formData.jobType ? jobTypes[$formData.jobType as JobType] : 'Select Job Type'}
 									</SelectTrigger>
 									<SelectContent>
 										<SelectItem value="full-time">Full Time</SelectItem>
@@ -171,7 +180,9 @@
 								<FormLabel>Status</FormLabel>
 								<Select type="single" bind:value={$formData.status} name={props.name}>
 									<SelectTrigger {...props} class="w-full">
-										{$formData.status ? jobApplicationStatuses[$formData.status] : 'Select Status'}
+										{$formData.status
+											? applicationStatuses[$formData.status as ApplicationStatus]
+											: 'Select Status'}
 									</SelectTrigger>
 									<SelectContent>
 										<SelectItem value="applied">Applied</SelectItem>

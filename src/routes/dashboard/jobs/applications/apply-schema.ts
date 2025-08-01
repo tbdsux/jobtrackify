@@ -1,39 +1,12 @@
+import { applicationStatuses, jobTypes } from '$lib/modules/job-application';
 import { z } from 'zod';
-
-export const jobTypes: Record<string, string> = {
-	'full-time': 'Full Time',
-	'part-time': 'Part Time',
-	contract: 'Contract',
-	internship: 'Internship',
-	freelance: 'Freelance',
-	temporary: 'Temporary',
-	other: 'Other'
-};
-
-export const jobApplicationStatuses: Record<string, string> = {
-	applied: 'Applied',
-	interview: 'Interview',
-	offer: 'Offer',
-	rejected: 'Rejected',
-	applicantRejected: 'Applicant Rejected',
-	accepted: 'Accepted'
-};
-
-export const interviewTypes: Record<string, string> = {
-	'video-call': 'Video Call',
-	'phone-call': 'Phone Call',
-	'face-to-face': 'Face to face',
-	others: 'Others'
-};
 
 export const jobApplicationSchema = z.object({
 	companyName: z.string().min(1, 'Company name is required'),
 	position: z.string().min(1, 'Position is required'),
 	jobLink: z.string().url('Invalid URL format').optional(),
-	jobType: z
-		.enum(['full-time', 'part-time', 'contract', 'internship', 'freelance', 'temporary', 'other'])
-		.optional(),
-	status: z.enum(['applied', 'interview', 'offer', 'rejected', 'accepted', 'applicantRejected']),
+	jobType: z.enum(Object.keys(jobTypes) as [string, ...string[]]).optional(),
+	status: z.enum(Object.keys(applicationStatuses) as [string, ...string[]]).optional(),
 	applicationDate: z.string().refine((v) => v, { message: 'Application date is required.' }),
 	notes: z.string().optional(),
 	salary: z.string().min(1, 'Salary is required').optional(),

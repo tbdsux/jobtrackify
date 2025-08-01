@@ -1,5 +1,6 @@
 import { auth } from '$lib/auth';
 import { db } from '$lib/kysely';
+import type { ApplicationStatus } from '$lib/modules/job-application';
 import { fail } from '@sveltejs/kit';
 import { superValidate, type Infer, type SuperValidated } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
@@ -110,7 +111,7 @@ export const actions: Actions = {
 				position: addItemForm.data.position,
 				jobLink: addItemForm.data.jobLink || '',
 				jobType: addItemForm.data.jobType || 'other',
-				status: addItemForm.data.status,
+				status: addItemForm.data.status as ApplicationStatus,
 				applicationDate: addItemForm.data.applicationDate,
 				followupDate: null,
 				interviewDate: null,
