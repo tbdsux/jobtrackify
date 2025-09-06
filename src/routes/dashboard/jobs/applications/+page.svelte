@@ -29,8 +29,11 @@
 		removeJobApplicationSchema,
 		updateJobApplicationSchema
 	} from './apply-schema';
+	import JobFilters from './job-filters.svelte';
+	import JobSort from './job-sort.svelte';
 	import NewJobApply from './new-job-apply.svelte';
 	import RemoveJobApply from './remove-job-apply.svelte';
+	import { jobApplicationsFilterState } from './state.svelte';
 	import UpdateJobApply from './update-job-apply.svelte';
 
 	let {
@@ -46,6 +49,35 @@
 
 	const df = new DateFormatter('en-US', {
 		dateStyle: 'long'
+	});
+
+	const filteredData = $derived(() => {
+		let items = data.jobApplications;
+
+		if (jobApplicationsFilterState.filter.length > 0) {
+			items = items.filter((item) =>
+				jobApplicationsFilterState.filter.includes(item.status as ApplicationStatus)
+			);
+		}
+
+		if (jobApplicationsFilterState.sort === 'appliedFirst') {
+			const appliedItems = items
+				.filter((item) => item.status === 'applied')
+				.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+			const otherItems = items
+				.filter((item) => item.status !== 'applied')
+				.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+
+			items = [...appliedItems, ...otherItems];
+		}
+
+		if (jobApplicationsFilterState.sort === 'latestUpdate') {
+			items = items.sort(
+				(a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+			);
+		}
+
+		return items;
 	});
 </script>
 
@@ -71,12 +103,20 @@
 			</CardHeader>
 
 			<CardContent class="space-y-8">
-				<div class="flex items-center justify-between">
-					<NewJobApply data={{ form: data.addItemForm }} />
+				<div class="flex flex-col items-center justify-between gap-4 md:flex-row md:gap-0">
+					<div class="inline-flex items-center gap-4">
+						<NewJobApply data={{ form: data.addItemForm }} />
+
+						<JobFilters />
+					</div>
+
+					<div>
+						<JobSort />
+					</div>
 				</div>
 
 				<div class="grid grid-cols-1 gap-4">
-					{#each data.jobApplications as item (item.id)}
+					{#each filteredData() as item (item.id)}
 						<Card
 							class="group relative transition-all duration-200 ease-in-out hover:border-neutral-500"
 						>
