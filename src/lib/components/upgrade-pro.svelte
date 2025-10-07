@@ -4,13 +4,10 @@
 	import { useQueryProSub } from '$lib/query-hooks/query-pro-sub';
 	import { cn } from '$lib/utils';
 	import { SparklesIcon } from '@lucide/svelte';
-	import { useQueryClient } from '@tanstack/svelte-query';
-	import { toast } from 'svelte-sonner';
 	import { Badge } from './ui/badge';
 	import { buttonVariants } from './ui/button';
 	import * as Sidebar from './ui/sidebar';
 
-	const queryClient = useQueryClient();
 	const queryProSub = useQueryProSub();
 
 	const handleUpgradeSub = async () => {
@@ -18,10 +15,6 @@
 			plan: 'pro',
 			successUrl: '/dashboard',
 			cancelUrl: '/dashboard'
-		});
-
-		await queryClient.invalidateQueries({
-			queryKey: ['user-pro-sub']
 		});
 	};
 
@@ -35,14 +28,6 @@
 			subscriptionId: subId,
 			returnUrl: '/dashboard'
 		});
-
-		await queryClient.invalidateQueries({
-			queryKey: ['user-pro-sub']
-		});
-
-		toast.success(
-			'Subscription cancelled successfully. You will retain Pro features until the end of your billing cycle.'
-		);
 	};
 </script>
 

@@ -35,7 +35,11 @@
 				<Card class="flex flex-row items-center gap-0">
 					<CardContent class="">
 						<div class="flex items-center">
-							<img src={data.user.image} alt={data.user.name} class="h-12 w-12 rounded-md" />
+							{#if data.user.image}
+								<img src={data.user.image} alt={data.user.name} class="h-12 w-12 rounded-md" />
+							{:else}
+								<div class="bg-muted h-12 w-12 rounded-md"></div>
+							{/if}
 						</div>
 					</CardContent>
 					<CardHeader class="w-full px-0">
