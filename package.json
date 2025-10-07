@@ -28,6 +28,7 @@
 		"@sveltejs/vite-plugin-svelte": "^5.1.1",
 		"@tailwindcss/typography": "^0.5.19",
 		"@tailwindcss/vite": "^4.1.14",
+		"@tanstack/table-core": "^8.21.3",
 		"@types/pg": "^8.15.5",
 		"@vitest/browser": "^3.2.4",
 		"bits-ui": "^2.11.4",

@@ -5,6 +5,8 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as Sidebar from '$lib/components/ui/sidebar';
 	import { ArchiveIcon, FileUserIcon, LayoutDashboardIcon, UserCogIcon } from '@lucide/svelte';
+	import type { User } from 'kysely-codegen';
+	import DashboardSidebarAdmin from './dashboard-sidebar-admin.svelte';
 	import ProBadge from './pro-badge.svelte';
 	import UpgradePro from './upgrade-pro.svelte';
 
@@ -27,11 +29,10 @@
 	];
 
 	let compProps: {
-		user: {
-			name: string;
-			email: string;
-		};
+		user: User;
 	} = $props();
+
+	const isAdmin = compProps.user.role === 'admin';
 
 	const handleLogout = async () => {
 		await authClient.signOut({
@@ -57,7 +58,7 @@
 						<h1 class="font-black tracking-wide">JobTrackify</h1>
 						<p class="text-muted-foreground text-xs">Track your job applications</p>
 					</div>
-					<ProBadge />
+					<ProBadge {isAdmin} />
 				</div>
 			</div>
 		</div>
@@ -83,13 +84,19 @@
 				</Sidebar.Menu>
 			</Sidebar.GroupContent>
 		</Sidebar.Group>
+
+		{#if isAdmin}
+			<DashboardSidebarAdmin />
+		{/if}
 	</Sidebar.Content>
 
 	<Sidebar.Footer>
 		<Sidebar.Menu>
-			<Sidebar.MenuItem>
-				<UpgradePro />
-			</Sidebar.MenuItem>
+			{#if !isAdmin}
+				<Sidebar.MenuItem>
+					<UpgradePro />
+				</Sidebar.MenuItem>
+			{/if}
 
 			<Sidebar.MenuItem>
 				<DropdownMenu.Root>

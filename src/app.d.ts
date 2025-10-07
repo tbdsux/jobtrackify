@@ -1,6 +1,7 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
 
-import type { Session, User } from 'better-auth';
+import type { Session } from 'better-auth';
+import type { User } from 'kysely-codegen';
 
 // for information about these interfaces
 declare global {
