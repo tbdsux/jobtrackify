@@ -5,6 +5,8 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as Sidebar from '$lib/components/ui/sidebar';
 	import { ArchiveIcon, FileUserIcon, LayoutDashboardIcon, UserCogIcon } from '@lucide/svelte';
+	import ProBadge from './pro-badge.svelte';
+	import UpgradePro from './upgrade-pro.svelte';
 
 	const menuItems = [
 		{
@@ -47,12 +49,15 @@
 <Sidebar.Root>
 	<Sidebar.Header>
 		<div class="flex items-center rounded-lg border p-2">
-			<div class="inline-flex items-center space-x-2">
+			<div class="inline-flex items-start space-x-2">
 				<img src={logo} alt="jobtrackify logo" class="size-12 rounded-full" />
 
-				<div>
-					<h1 class="font-black tracking-wide">JobTrackify</h1>
-					<p class="text-muted-foreground text-xs">Track your job applications</p>
+				<div class="space-y-1">
+					<div>
+						<h1 class="font-black tracking-wide">JobTrackify</h1>
+						<p class="text-muted-foreground text-xs">Track your job applications</p>
+					</div>
+					<ProBadge />
 				</div>
 			</div>
 		</div>
@@ -82,6 +87,10 @@
 
 	<Sidebar.Footer>
 		<Sidebar.Menu>
+			<Sidebar.MenuItem>
+				<UpgradePro />
+			</Sidebar.MenuItem>
+
 			<Sidebar.MenuItem>
 				<DropdownMenu.Root>
 					<DropdownMenu.Trigger

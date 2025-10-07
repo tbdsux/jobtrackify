@@ -1,0 +1,1 @@
+create table "subscription" ("id" text not null primary key, "plan" text not null, "referenceId" text not null, "stripeCustomerId" text, "stripeSubscriptionId" text, "status" text not null, "periodStart" timestamptz, "periodEnd" timestamptz, "trialStart" timestamptz, "trialEnd" timestamptz, "cancelAtPeriodEnd" boolean, "seats" integer);
