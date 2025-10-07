@@ -2,20 +2,20 @@ import { auth } from '$lib/auth';
 import { db } from '$lib/kysely';
 import { fail } from '@sveltejs/kit';
 import { superValidate, type Infer, type SuperValidated } from 'sveltekit-superforms';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import type { Actions, PageServerLoad } from './$types';
 import { removeSaveJobSchema, saveJobSchema, updateSaveJobSchema } from './savejob-schema';
 
 export const load: PageServerLoad = async ({ parent }) => {
-	const { session } = await parent();
+	const { user } = await parent();
 	const savedJobs = await db
 		.selectFrom('saved_job')
 		.selectAll()
-		.where('user_id', '=', session.user.id)
+		.where('user_id', '=', user.id)
 		.orderBy('createdAt', 'desc')
 		.execute();
 
-	const addItemForm = await superValidate(zod(saveJobSchema));
+	const addItemForm = await superValidate(zod4(saveJobSchema));
 	const updateFormItems = await Promise.all(
 		savedJobs.map(async (item) => {
 			const formData = {
@@ -34,7 +34,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 					| 'other',
 				salary: item.salary ?? undefined
 			};
-			return [item.id, await superValidate(formData, zod(updateSaveJobSchema))];
+			return [item.id, await superValidate(formData, zod4(updateSaveJobSchema))];
 		})
 	);
 	const removeFormItems = await Promise.all(
@@ -42,7 +42,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 			const formData = {
 				id: item.id
 			};
-			return [item.id, await superValidate(formData, zod(removeSaveJobSchema))];
+			return [item.id, await superValidate(formData, zod4(removeSaveJobSchema))];
 		})
 	);
 
@@ -62,7 +62,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 
 export const actions: Actions = {
 	addItem: async (event) => {
-		const form = await superValidate(event, zod(saveJobSchema));
+		const form = await superValidate(event, zod4(saveJobSchema));
 		if (!form.valid) {
 			return fail(400, {
 				form
@@ -103,7 +103,7 @@ export const actions: Actions = {
 		};
 	},
 	updateItem: async (event) => {
-		const form = await superValidate(event, zod(updateSaveJobSchema));
+		const form = await superValidate(event, zod4(updateSaveJobSchema));
 		if (!form.valid) {
 			return fail(400, {
 				form
@@ -144,7 +144,7 @@ export const actions: Actions = {
 		};
 	},
 	removeItem: async (event) => {
-		const form = await superValidate(event, zod(removeSaveJobSchema));
+		const form = await superValidate(event, zod4(removeSaveJobSchema));
 		if (!form.valid) {
 			return fail(400, {
 				form

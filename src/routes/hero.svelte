@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { authClient } from '$lib/auth-client';
-	import LoginButton from './login-button.svelte';
+	import { Button } from '$lib/components/ui/button';
 
 	const handleSignInGithub = async () => {
 		await authClient.signIn.social({
@@ -20,7 +20,7 @@
 		</p>
 
 		<div class="mt-12">
-			<LoginButton />
+			<Button href="/auth">Login</Button>
 		</div>
 	</div>
 

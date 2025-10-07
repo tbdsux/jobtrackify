@@ -4,7 +4,7 @@ import type { PageServerLoad } from './$types';
 import type { DashboardStats } from './stats';
 
 export const load: PageServerLoad = async ({ parent }) => {
-	const { session } = await parent();
+	const { session, user } = await parent();
 
 	const jobApplicationsCount = await db
 		.selectFrom('job_application')
@@ -12,13 +12,13 @@ export const load: PageServerLoad = async ({ parent }) => {
 			eb.fn.count('id').as('count'),
 			eb.fn.count('id').filterWhere('status', '=', 'interview').as('interviewCount')
 		])
-		.where('user_id', '=', session.user.id)
+		.where('user_id', '=', user.id)
 		.executeTakeFirst();
 
 	const savedJobsCount = await db
 		.selectFrom('saved_job')
 		.select((eb) => [eb.fn.count('id').as('count')])
-		.where('user_id', '=', session.user.id)
+		.where('user_id', '=', user.id)
 		.executeTakeFirst();
 
 	if (!savedJobsCount || !jobApplicationsCount) {

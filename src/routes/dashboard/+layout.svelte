@@ -7,7 +7,7 @@
 </script>
 
 <Sidebar.Provider>
-	<DashboardSidebar user={{ name: data.session.user.name, email: data.session.user.email }} />
+	<DashboardSidebar user={{ name: data.user.name, email: data.user.email }} />
 
 	<main class="flex h-full w-full flex-col space-y-4 px-8 pt-4 pb-8">
 		{@render children()}

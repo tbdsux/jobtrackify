@@ -17,7 +17,7 @@
 	import type { SavedJob } from 'kysely-codegen';
 	import { toast } from 'svelte-sonner';
 	import { type Infer, superForm, type SuperValidated } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import { removeSaveJobSchema } from './savejob-schema';
 
 	let props: {
@@ -29,7 +29,7 @@
 	let process = $state<undefined | string | number>(undefined);
 
 	const form = superForm(props.form, {
-		validators: zodClient(removeSaveJobSchema),
+		validators: zod4Client(removeSaveJobSchema),
 		warnings: { duplicateId: false },
 		onUpdate: ({ form: f }) => {
 			if (f.valid) {

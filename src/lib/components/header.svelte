@@ -2,7 +2,6 @@
 	import logo from '$lib/assets/logo.png';
 	import { cn } from '$lib/utils';
 	import { FolderGitIcon } from '@lucide/svelte';
-	import LoginButton from '../../routes/login-button.svelte';
 	import { Button } from './ui/button';
 
 	let props: {
@@ -31,6 +30,6 @@
 			Github
 		</Button>
 
-		<LoginButton />
+		<Button href="/auth">Login</Button>
 	</div>
 </header>

@@ -35,19 +35,15 @@
 				<Card class="flex flex-row items-center gap-0">
 					<CardContent class="">
 						<div class="flex items-center">
-							<img
-								src={data.session.user.image}
-								alt={data.session.user.name}
-								class="h-12 w-12 rounded-md"
-							/>
+							<img src={data.user.image} alt={data.user.name} class="h-12 w-12 rounded-md" />
 						</div>
 					</CardContent>
 					<CardHeader class="w-full px-0">
 						<CardTitle>
-							{data.session.user.name}
+							{data.user.name}
 						</CardTitle>
 						<CardDescription>
-							{data.session.user.email}
+							{data.user.email}
 						</CardDescription>
 					</CardHeader>
 				</Card>

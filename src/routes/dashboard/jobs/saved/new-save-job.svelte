@@ -23,7 +23,7 @@
 	import { ArchiveIcon, PlusIcon } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import { saveJobSchema } from './savejob-schema';
 
 	let { data }: { data: { form: SuperValidated<Infer<typeof saveJobSchema>> } } = $props();
@@ -32,7 +32,7 @@
 	let process = $state<undefined | string | number>(undefined);
 
 	const form = superForm(data.form, {
-		validators: zodClient(saveJobSchema),
+		validators: zod4Client(saveJobSchema),
 		onUpdate: ({ form: f }) => {
 			console.log('form errs', f.errors);
 			if (f.valid) {

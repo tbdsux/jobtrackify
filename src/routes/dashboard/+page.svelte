@@ -23,7 +23,7 @@
 		<Card>
 			<CardHeader>
 				<CardTitle class="text-2xl">
-					Welcome, <strong>{data.session.user.name}</strong>!
+					Welcome, <strong>{data.user.name}</strong>!
 				</CardTitle>
 				<CardDescription class="text-lg">
 					Here’s a quick overview of your job search progress.

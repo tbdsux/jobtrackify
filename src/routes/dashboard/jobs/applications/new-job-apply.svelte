@@ -41,7 +41,7 @@
 	import { CalendarIcon, PlusIcon, TextCursorInputIcon } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 	import { type Infer, superForm, type SuperValidated } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import { jobApplicationSchema } from './apply-schema';
 
 	let { data }: { data: { form: SuperValidated<Infer<typeof jobApplicationSchema>> } } = $props();
@@ -50,7 +50,7 @@
 	let process = $state<undefined | string | number>(undefined);
 
 	const form = superForm(data.form, {
-		validators: zodClient(jobApplicationSchema),
+		validators: zod4Client(jobApplicationSchema),
 		onUpdate: ({ form: f }) => {
 			if (f.valid) {
 				toast.success(`Successfully added new job application!`, {

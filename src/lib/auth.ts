@@ -1,7 +1,9 @@
+import { getRequestEvent } from '$app/server';
 import { env } from '$env/dynamic/private';
 import { stripe } from '@better-auth/stripe';
 import { betterAuth } from 'better-auth';
 import { admin } from 'better-auth/plugins';
+import { sveltekitCookies } from 'better-auth/svelte-kit';
 import Stripe from 'stripe';
 import { db } from './kysely';
 
@@ -15,7 +17,7 @@ export const auth = betterAuth({
 		type: 'postgres'
 	},
 	emailAndPassword: {
-		enabled: false
+		enabled: true
 	},
 	socialProviders: {
 		github: {
@@ -56,7 +58,8 @@ export const auth = betterAuth({
 				}
 			}
 		}),
-		admin()
+		admin(),
+		sveltekitCookies(getRequestEvent)
 	],
 	trustedOrigins: [...env.BETTER_AUTH_TRUSTED_ORIGINS!.split(',')]
 });

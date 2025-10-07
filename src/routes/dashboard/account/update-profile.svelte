@@ -17,7 +17,7 @@
 	import { Input } from '$lib/components/ui/input';
 	import { toast } from 'svelte-sonner';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import { updateProfileSchema } from './profile-schema';
 
 	let props: { form: SuperValidated<Infer<typeof updateProfileSchema>> } = $props();
@@ -25,7 +25,7 @@
 	let process = $state<undefined | string | number>(undefined);
 
 	const form = superForm(props.form, {
-		validators: zodClient(updateProfileSchema),
+		validators: zod4Client(updateProfileSchema),
 		resetForm: false,
 		onUpdate: async ({ form: f }) => {
 			console.log('form errs', f.errors);

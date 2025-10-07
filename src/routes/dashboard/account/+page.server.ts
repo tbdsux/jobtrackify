@@ -1,28 +1,28 @@
 import { auth } from '$lib/auth';
 import { fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import type { Actions, PageServerLoad } from './$types';
 import { updateProfileSchema } from './profile-schema';
 
 export const load: PageServerLoad = async ({ parent }) => {
-	const { session } = await parent();
+	const { user } = await parent();
 
 	const formData = {
-		name: session.user.name
+		name: user.name
 	};
 
-	const form = await superValidate(formData, zod(updateProfileSchema));
+	const form = await superValidate(formData, zod4(updateProfileSchema));
 
 	return {
-		session,
+		user,
 		form
 	};
 };
 
 export const actions: Actions = {
 	updateProfile: async (event) => {
-		const form = await superValidate(event, zod(updateProfileSchema));
+		const form = await superValidate(event, zod4(updateProfileSchema));
 		if (!form.valid) {
 			return fail(400, {
 				form
