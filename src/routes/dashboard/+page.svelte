@@ -58,6 +58,15 @@
 					<CardDescription class="text-lg">Total Interviews</CardDescription>
 				</CardHeader>
 			</Card>
+
+			<Card>
+				<CardHeader>
+					<CardTitle class="text-4xl font-black">
+						{data.stats.totalResumeUploads}
+					</CardTitle>
+					<CardDescription class="text-lg">Resume Uploads</CardDescription>
+				</CardHeader>
+			</Card>
 		</div>
 	</div>
 </PageContainer>

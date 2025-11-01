@@ -4,7 +4,13 @@
 	import { authClient } from '$lib/auth-client';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as Sidebar from '$lib/components/ui/sidebar';
-	import { ArchiveIcon, FileUserIcon, LayoutDashboardIcon, UserCogIcon } from '@lucide/svelte';
+	import {
+		ArchiveIcon,
+		FileTextIcon,
+		FileUserIcon,
+		LayoutDashboardIcon,
+		UserCogIcon
+	} from '@lucide/svelte';
 	import type { User } from 'kysely-codegen';
 	import DashboardSidebarAdmin from './dashboard-sidebar-admin.svelte';
 	import ProBadge from './pro-badge.svelte';
@@ -25,6 +31,14 @@
 			title: 'Saved Jobs',
 			url: '/dashboard/jobs/saved',
 			icon: ArchiveIcon
+		}
+	];
+
+	const otherMenuItems = [
+		{
+			title: 'Resumes',
+			url: '/dashboard/resumes',
+			icon: FileTextIcon
 		}
 	];
 
@@ -70,6 +84,26 @@
 			<Sidebar.GroupContent>
 				<Sidebar.Menu>
 					{#each menuItems as item (item.title)}
+						<Sidebar.MenuItem>
+							<Sidebar.MenuButton class="px-4 py-6 [&>svg]:size-5">
+								{#snippet child({ props })}
+									<a href={item.url} {...props}>
+										<item.icon />
+										<span>{item.title}</span>
+									</a>
+								{/snippet}
+							</Sidebar.MenuButton>
+						</Sidebar.MenuItem>
+					{/each}
+				</Sidebar.Menu>
+			</Sidebar.GroupContent>
+		</Sidebar.Group>
+
+		<Sidebar.Group>
+			<Sidebar.GroupLabel>Others</Sidebar.GroupLabel>
+			<Sidebar.GroupContent>
+				<Sidebar.Menu>
+					{#each otherMenuItems as item (item.title)}
 						<Sidebar.MenuItem>
 							<Sidebar.MenuButton class="px-4 py-6 [&>svg]:size-5">
 								{#snippet child({ props })}

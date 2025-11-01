@@ -21,14 +21,21 @@ export const load: PageServerLoad = async ({ parent }) => {
 		.where('user_id', '=', user.id)
 		.executeTakeFirst();
 
-	if (!savedJobsCount || !jobApplicationsCount) {
+	const resumeUploadsCount = await db
+		.selectFrom('resume_upload')
+		.select((eb) => [eb.fn.count('id').as('count')])
+		.where('user_id', '=', user.id)
+		.executeTakeFirst();
+
+	if (!savedJobsCount || !jobApplicationsCount || !resumeUploadsCount) {
 		error(500, { message: 'Failed to retrieve dashboard statistics' });
 	}
 
 	const stats: DashboardStats = {
 		totalApplications: Number(jobApplicationsCount.count || 0),
 		totalSavedJobs: Number(savedJobsCount.count || 0),
-		totalInterviews: Number(jobApplicationsCount.interviewCount || 0)
+		totalInterviews: Number(jobApplicationsCount.interviewCount || 0),
+		totalResumeUploads: Number(resumeUploadsCount.count || 0)
 	};
 
 	return {

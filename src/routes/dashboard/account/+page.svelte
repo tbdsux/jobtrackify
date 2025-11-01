@@ -14,6 +14,10 @@
 	let { data }: PageProps = $props();
 </script>
 
+<svelte:head>
+	<title>My Account | JobTrackify</title>
+</svelte:head>
+
 <DashboardHeader
 	menu={{
 		title: 'Job Applications',
